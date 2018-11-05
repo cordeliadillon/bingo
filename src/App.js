@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './tachyons.css';
+import Board from './board';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className='app'>
+        <Board id='abc' size={5} values={'abcdefghijklmnopqrstuvwxyz'.split('')}/>
+        <button className='f6 link dim br3 ba bw1 ph3 pv2 mb2 dib near-black'>
+          Refresh
+        </button>
       </div>
     );
   }
