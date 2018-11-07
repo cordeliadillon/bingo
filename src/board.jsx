@@ -277,43 +277,45 @@ class Board extends Component {
   }
 
   renderLeaderboardPrompt() {
-    if (this.state.leaderboardSubmitted) {
-      return (
-        <p>
-          You're on the leaderboard! Keep playing on this bingo board or generate a new one.
-        </p>
-      );
-    } else {
-      return (
-        <div>
-          <span>
-            Want to be on the leaderboard? <label htmlFor='name'>Add your name:</label>
-          </span>
-          <div className='pa2'>
-            <input
-              className='input-reset bg-white pa3 ma2 ba bw1 b--white'
-              id='name'/>
-            <button
-              className='add-leader white pa3 ba bw1 b--white'
-              onClick={this.updateLeaderBoard}
-            >
-              Add me!
-            </button>
+    if (true || this.state.bingo) {
+      if (this.state.leaderboardSubmitted) {
+        return (
+          <p className='lh-copy'>
+            You're on the leaderboard! Keep playing on this bingo board or generate a new one.
+          </p>
+        );
+      } else {
+        return (
+          <div className='pt3'>
+            <span>
+              Want to be on the leaderboard? <label htmlFor='name'>Add your name:</label>
+            </span>
+            <div className='pa2'>
+              <input
+                style={{'background-color': '#f6f7fa'}}
+                className='input-reset pa3 ma2 ba bw1 b--black'
+                id='name'
+                placeholder='Your name' />
+              <button
+                className='tc fw8 blue-button white pa3 ba bw1 b--black'
+                onClick={this.updateLeaderBoard}
+              >
+                Add me!
+              </button>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     }
+    return null;
   }
 
   renderSuccess() {
     if (this.state.bingo) {
       return (
-        <div className='white'>
-          <div role='alert' aria-live='assertive'>
-            <h2 className='fw6 f3 f2-ns lh-title mt0 mb3'>Bingo!</h2>
-            <p>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
-          </div>
-          {this.renderLeaderboardPrompt()}
+        <div role='alert' aria-live='assertive'>
+          <h2 className='fw6 f3 f2-ns lh-title mt0 mb3'>Bingo!</h2>
+          <p>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
         </div>
       )
     }
@@ -323,13 +325,14 @@ class Board extends Component {
   render() {
     return (
       <main>
-        <div className='top-banner'>
+        <div className='top-banner white'>
           {this.renderSuccess()}
         </div>
         <table role='grid'>
           {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
         </table>
-        <button className='refresh bg-white black pa3 ba bw1 b--black' onClick={this.refreshBoard} >
+        {this.renderLeaderboardPrompt()}
+        <button className='tc fw8 bg-white black pa3 ba bw1 b--black' onClick={this.refreshBoard} >
           New Bingo Board
         </button>
       </main>

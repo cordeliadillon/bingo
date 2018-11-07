@@ -7,7 +7,7 @@ body {
 .top-banner {
   margin: 0 0 1rem 0;
   padding: .25rem 0;
-  min-height: 4rem;
+  min-height: 5rem;
 
   text-align: center;
   font-weight: 800;
@@ -79,18 +79,12 @@ svg {
   padding: 2px;
 }
 
-.refresh, .add-leader {
-  text-align: center;
-  font-weight: 800;
-}
-
-.add-leader {
+.blue-button {
   background-color: #1460AA;
 }
 
 .refresh {
   margin: 1rem auto;
-  background-color: white;
 }
 
 .app {
