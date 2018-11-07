@@ -277,7 +277,7 @@ class Board extends Component {
   }
 
   renderLeaderboardPrompt() {
-    if (true || this.state.bingo) {
+    if (this.state.bingo) {
       if (this.state.leaderboardSubmitted) {
         return (
           <p className='lh-copy'>
