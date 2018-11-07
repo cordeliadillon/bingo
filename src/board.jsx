@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
 import './board.css';
+import './tachyons.css';
+
+momentDurationFormatSetup(moment);
 
 function copyObject(obj) {
   return Object.assign({}, obj);
@@ -16,20 +21,16 @@ function shuffleArray(array) {
   return array;
 }
 
-  /* https://stackoverflow.com/a/21294619 */
-function millisecondsToMinutesAndSeconds(millis) {
-  var minutes = Math.floor(millis / 60000);
-  var seconds = ((millis % 60000) / 1000).toFixed(0);
-  return (seconds == 60 ? (minutes+1) + " min" : minutes + " min, " + (seconds < 10 ? "0" : "") + seconds + " sec");
-}
-
 class Board extends Component {
   constructor(props) {
     super(props);
 
     const size = props.size % 2 ? props.size : props.size - 1;
     const cellCount = size * size;
+    const midpoint = (size * size - 1)/ 2;
 
+    // Ensure we have enough values to fill this size board.
+    // If not, keep adding duplicate values until we do.
     let values = props.values.slice();
     let i = 0;
     while (values.length < cellCount) {
@@ -37,62 +38,99 @@ class Board extends Component {
       i++;
       if (i > props.values.length - 1) i = 0;
     }
-    values = shuffleArray(values);
 
     this.state = {
       activeCell: 0,
       activeRow: 0,
       activeCol: 0,
-      grid: [],
-      selection: {},
+      endTime: 0,
+      grid: this.generateRandomGrid(values, size),
+      midpoint: midpoint,
+      selection: {[midpoint]: true},
       size: size,
-      startTime: Date.now()
+      startTime: Date.now(),
+      values: values
     };
 
-    this.state.midpoint = (size * size - 1)/ 2;
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.refreshBoard = this.refreshBoard.bind(this);
+    this.updateLeaderBoard = this.updateLeaderBoard.bind(this);
+  }
 
+  /**
+   * Randomize supplied values and return 
+   * a grid with dimensions size * size
+   */
+  generateRandomGrid(values, size) {
+    const randomizedValues = shuffleArray(values);
+
+    let grid = [];
     for (let row = 0; row < size; row++) {
-      this.state.grid[row] = [];
+      grid[row] = [];
       for (let col = 0; col < size; col++) {
         let id = col + (row * size);
-        this.state.grid[row][col] = {
+        grid[row][col] = {
           value: values[id],
           id: id
         }
       }
     }
 
-    for (let id = 0; id < values.length && id < cellCount; id++) {
-      this.state.selection[id] = id === this.state.midpoint ? true : false;
-    }
+    return grid;
+  }
 
-    this.state.activeCell = 0;
-    this.state.selectedValues = [];
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    console.log(this.state.size, this.state);
+  updateLeaderBoard() {
+    const name = document.getElementById('name').value;
+    if (name && name !== '') {
+      const data = {
+        name: name,
+        timestamp: this.state.endTime,
+        duration: this.state.endTime - this.state.startTime
+      };
+      const key = this.props.db.database().ref('games/' + this.props.gameId).child('leaderboard').push(data).key;
+      this.setState({leaderboardSubmitted: true});
+      return key;
+    }
+  }
+
+  /**
+   * Randomize cell values, reset timer, and clear selection.
+   */
+  refreshBoard() {
+    this.setState({
+      activeCell: 0,
+      activeRow: 0,
+      activeCol: 0,
+      bingo: false,
+      grid: this.generateRandomGrid(this.state.values, this.state.size),
+      leaderboardSubmitted: false,
+      selection: {[this.state.midpoint]: true},
+      startTime: Date.now(),
+      endTime: 0
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // not a new board
+    if (prevState.startTime === this.state.startTime) {
+      // focus active cell
+      if (prevState.activeCell !== this.state.activeCell) {
+        document.getElementById(this.props.id + '-cell-' + this.state.activeCell).focus();
+      }
 
-    // focus active cell
-    if (prevState.activeCell !== this.state.activeCell) {
-      document.getElementById(this.props.id + '-cell-' + this.state.activeCell).focus();
-    }
-
-    if (prevState.selection !== this.state.selection) {
-      if (
-        this.checkRow(this.state.activeRow) ||
-        this.checkCol(this.state.activeCol) ||
-        this.checkDiagonalA(this.state.activeRow, this.state.activeCol) ||
-        this.checkDiagonalB(this.state.activeRow, this.state.activeCol)
-      ) {
-        if (!this.state.bingo) {
-          const endTime = Date.now();
-          this.setState({
-            bingo: true,
-            endTime: endTime,
-            totalTime: millisecondsToMinutesAndSeconds(endTime - this.state.startTime)
-          });
+      if (prevState.selection !== this.state.selection) {
+        if (
+          this.checkRow(this.state.activeRow) ||
+          this.checkCol(this.state.activeCol) ||
+          this.checkDiagonalA(this.state.activeRow, this.state.activeCol) ||
+          this.checkDiagonalB(this.state.activeRow, this.state.activeCol)
+        ) {
+          if (!this.state.bingo) {
+            this.setState({
+              bingo: true,
+              endTime: Date.now(),
+            });
+          }
         }
       }
     }
@@ -199,7 +237,6 @@ class Board extends Component {
             </button>
           </div>
         </td>
-
       );
     }
 
@@ -239,15 +276,62 @@ class Board extends Component {
     );
   }
 
+  renderLeaderboardPrompt() {
+    if (this.state.leaderboardSubmitted) {
+      return (
+        <p>
+          You're on the leaderboard! Keep playing on this bingo board or generate a new one.
+        </p>
+      );
+    } else {
+      return (
+        <div>
+          <span>
+            Want to be on the leaderboard? <label htmlFor='name'>Add your name:</label>
+          </span>
+          <div className='pa2'>
+            <input
+              className='input-reset bg-white pa3 ma2 ba bw1 b--white'
+              id='name'/>
+            <button
+              className='add-leader white pa3 ba bw1 b--white'
+              onClick={this.updateLeaderBoard}
+            >
+              Add me!
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderSuccess() {
+    if (this.state.bingo) {
+      return (
+        <div className='white'>
+          <div role='alert' aria-live='assertive'>
+            <h2 className='fw6 f3 f2-ns lh-title mt0 mb3'>Bingo!</h2>
+            <p>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
+          </div>
+          {this.renderLeaderboardPrompt()}
+        </div>
+      )
+    }
+    return null;
+  }
+
   render() {
     return (
       <main>
-        <div role="alert">
-          {this.state.bingo ? 'Bingo! (' + this.state.totalTime + ')' : ''}
+        <div className='top-banner'>
+          {this.renderSuccess()}
         </div>
         <table role='grid'>
           {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
         </table>
+        <button className='refresh bg-white black pa3 ba bw1 b--black' onClick={this.refreshBoard} >
+          New Bingo Board
+        </button>
       </main>
     );
   }
@@ -255,11 +339,12 @@ class Board extends Component {
 
 Board.propTypes = {
   size: PropTypes.number,
-  data: PropTypes.array
+  values: PropTypes.array
 }
 
 Board.defaultProps = {
-  size: 5
+  size: 5,
+  values: 'abcdefghijklmnopqrstuv'.split('')
 }
 
 export default Board;
