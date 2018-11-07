@@ -280,7 +280,7 @@ class Board extends Component {
     if (this.state.bingo) {
       if (this.state.leaderboardSubmitted) {
         return (
-          <p className='lh-copy'>
+          <p className='lh-copy mb0'>
             You're on the leaderboard! Keep playing on this bingo board or generate a new one.
           </p>
         );
@@ -314,8 +314,8 @@ class Board extends Component {
     if (this.state.bingo) {
       return (
         <div role='alert' aria-live='assertive'>
-          <h2 className='fw6 f3 f2-ns lh-title mt0 mb3'>Bingo!</h2>
-          <p>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
+          <h2 className='fw6 f3 f2-ns lh-title mt0 mb2'>Bingo!</h2>
+          <p className='ma0'>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
         </div>
       )
     }
@@ -332,7 +332,7 @@ class Board extends Component {
           {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
         </table>
         {this.renderLeaderboardPrompt()}
-        <button className='tc fw8 bg-white black pa3 ba bw1 b--black' onClick={this.refreshBoard} >
+        <button className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2' onClick={this.refreshBoard} >
           New Bingo Board
         </button>
       </main>
