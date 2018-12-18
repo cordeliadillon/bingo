@@ -70,7 +70,7 @@ class Board extends Component {
       for (let col = 0; col < size; col++) {
         let id = col + (row * size);
         grid[row][col] = {
-          value: values[id],
+          value: randomizedValues[id],
           id: id
         }
       }
@@ -292,7 +292,7 @@ class Board extends Component {
             </span>
             <div className='pa2'>
               <input
-                style={{'background-color': '#f6f7fa'}}
+                style={{'backgroundColor': '#f6f7fa'}}
                 className='input-reset pa3 ma2 ba bw1 b--black'
                 id='name'
                 placeholder='Your name' />

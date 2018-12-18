@@ -20,7 +20,6 @@ body {
 
 table {
   border-collapse: collapse;
-/*  table-layout: fixed;*/
   width: 100%;
 
   padding: 2rem;
@@ -49,6 +48,8 @@ table {
 .cell-toggle {
   width: 100%;
   height: 100%;
+  padding: 2px;
+  overflow: auto;
 
   background: white;
   border: 0;
@@ -67,16 +68,10 @@ table {
   border: .5rem solid #1589ee;
 }
 
-svg {
-  fill: white;
-  width: 2rem;
-  height: 2rem;
-}
-
-.cell-toggle {
-  font-size: .7rem;
-  overflow: auto;
-  padding: 2px;
+@media only screen and (max-device-width : 480px) {
+  .cell-toggle {
+    font-size: .7rem;
+  }
 }
 
 .blue-button {
@@ -94,4 +89,10 @@ svg {
 ol {
   margin: 0 auto;
   text-align: left;
+}
+
+svg {
+  fill: white;
+  width: 2rem;
+  height: 2rem;
 }
