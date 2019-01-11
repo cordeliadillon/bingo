@@ -22,6 +22,7 @@ function shuffleArray(array) {
 }
 
 class Board extends Component {
+
   constructor(props) {
     super(props);
 
@@ -56,7 +57,7 @@ class Board extends Component {
     this.refreshBoard = this.refreshBoard.bind(this);
     this.updateLeaderBoard = this.updateLeaderBoard.bind(this);
   }
-
+  
   /**
    * Randomize supplied values and return 
    * a grid with dimensions size * size
@@ -314,7 +315,7 @@ class Board extends Component {
     if (this.state.bingo) {
       return (
         <div role='alert' aria-live='assertive'>
-          <h2 className='fw6 f3 f2-ns lh-title mt0 mb2'>Bingo!</h2>
+          <h2 className='fw6 f3 f2-ns lh-title mt0 mb2'>You got bingo!</h2>
           <p className='ma0'>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
         </div>
       )
@@ -324,18 +325,21 @@ class Board extends Component {
 
   render() {
     return (
-      <main>
-        <div className='top-banner white'>
+      <div>
+        <header className='white'>
+          <h1 className={this.state.bingo ? 'visually-hidden' : null }>Bingo Buddies</h1>
           {this.renderSuccess()}
-        </div>
-        <table role='grid'>
-          {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
-        </table>
-        {this.renderLeaderboardPrompt()}
-        <button className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2' onClick={this.refreshBoard} >
-          New Bingo Board
-        </button>
-      </main>
+        </header>
+        <main>
+          <table role='grid'>
+            {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
+          </table>
+          {this.renderLeaderboardPrompt()}
+          <button className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2' onClick={this.refreshBoard} >
+            New Bingo Board
+          </button>
+        </main>
+      </div>
     );
   }
 }

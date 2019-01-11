@@ -4,7 +4,7 @@ body {
   padding: 2px;
 }
 
-.top-banner {
+header {
   margin: 0 0 1rem 0;
   padding: .25rem 0;
   min-height: 4rem;
@@ -18,9 +18,12 @@ body {
   outline: 4px solid #16325c;
 }
 
-table {
+*[role='grid'] {
   border-collapse: collapse;
   width: 100%;
+  max-width: 95vmin;
+
+  margin: 0 auto;
 
   padding: 2rem;
   outline: 4px solid #dddbda;
