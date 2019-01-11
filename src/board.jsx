@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+import SimpleStorage from 'react-simple-storage';
 import './board.css';
 import './tachyons.css';
 
@@ -57,7 +58,7 @@ class Board extends Component {
     this.refreshBoard = this.refreshBoard.bind(this);
     this.updateLeaderBoard = this.updateLeaderBoard.bind(this);
   }
-  
+
   /**
    * Randomize supplied values and return 
    * a grid with dimensions size * size
@@ -332,13 +333,18 @@ class Board extends Component {
         </header>
         <main>
           <table role='grid'>
-            {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
+            <tbody role='presentation'>
+              {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
+            </tbody>
           </table>
           {this.renderLeaderboardPrompt()}
           <button className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2' onClick={this.refreshBoard} >
             New Bingo Board
           </button>
         </main>
+        { /* Stores current board state in local storage so
+             game is preserved even when refreshed */ }
+        <SimpleStorage parent={this} blacklist={['activeCell', 'activeRow', 'activeCol']} />
       </div>
     );
   }
