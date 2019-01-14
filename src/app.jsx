@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Board from './board';
+import BoardCreator from './boardCreator';
 import LeaderBoard from './leaderboard';
 import firebase from './firebase.js';
 import queryString from 'query-string';
@@ -24,8 +25,9 @@ class App extends Component {
       const values = leaderboard.val();
       const leaders = 
         values ?
-        Object.values(leaderboard.val()).sort((a, b) => {return a.duration - b.duration;}) :
-        [];
+          Object.values(leaderboard.val()).sort((a, b) => {
+            return a.duration - b.duration;
+          }) : [];
       this.setState({leaders: leaders});
     });
   }
@@ -39,7 +41,7 @@ class App extends Component {
         </div>
       );
     }
-    return null;
+    return <BoardCreator/>;
   }
 }
 

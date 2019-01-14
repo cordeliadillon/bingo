@@ -8,11 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 /* https://webaim.org/techniques/css/invisiblecontent/ */
 .visually-hidden {
   position: absolute;
@@ -21,4 +16,8 @@ code {
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+.darker-red {
+  color: #CC0000;
 }
