@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { StyledFirebaseAuth } from 'react-firebaseui';
 import Board from './board';
-import BoardCreator from './boardCreator';
 import LeaderBoard from './leaderboard';
+import WelcomeScreen from './welcomeScreen';
 import firebase from './firebase.js';
 import queryString from 'query-string';
 
@@ -11,11 +12,14 @@ class App extends Component {
     super(props);
 
     this.state = {
-      gameId: queryString.parse(props.location.search).game
+      gameId: queryString.parse(props.location.search).game,
+      noSuchGame: false,
+      signedIn: false,
     };
 
     firebase.database().ref('games/' + this.state.gameId).once('value').then((game) => {
       this.setState({
+        noSuchGame: !game.exists(),
         lexicon: game.child('lexicon').val(),
         size: game.child('size').val()
       });
@@ -33,15 +37,30 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.size && this.state.lexicon) {
-      return (
-        <div className='app'>
-          <Board id='abc' size={this.state.size} values={this.state.lexicon} db={firebase} gameId={this.state.gameId} />
-          <LeaderBoard leaders={this.state.leaders} size={this.state.size} />
-        </div>
-      );
+    if (this.state.gameId) {
+      if (!this.state.noSuchGame) {
+        if (this.state.lexicon && this.state.size) {
+          return (
+            <div className='app'>
+              <Board id='abc' size={this.state.size} values={this.state.lexicon} db={firebase} gameId={this.state.gameId} />
+              <LeaderBoard leaders={this.state.leaders} size={this.state.size} />
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <header className='white'>
+                <h1>Bingo Buddies</h1>
+              </header>
+              <main className='tc'>
+                <div aria-live='polite'>Loading...</div>
+              </main>
+            </div>
+          );
+        }
+      } 
     }
-    return <BoardCreator/>;
+    return <WelcomeScreen firebase={firebase} />;
   }
 }
 

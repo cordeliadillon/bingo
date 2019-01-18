@@ -51,6 +51,7 @@ class Board extends Component {
       selection: {[midpoint]: true},
       size: size,
       startTime: Date.now(),
+      starterValues: props.values,
       values: values
     };
 
@@ -135,6 +136,10 @@ class Board extends Component {
           }
         }
       }
+    }
+
+    if (prevProps.values !== this.state.starterValues) {
+      console.log('eeeey', prevProps.values, this.props.values);
     }
   }
 
@@ -338,13 +343,20 @@ class Board extends Component {
             </tbody>
           </table>
           {this.renderLeaderboardPrompt()}
-          <button className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2' onClick={this.refreshBoard} >
+          <button
+            className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2'
+            onClick={this.refreshBoard}
+          >
             New Bingo Board
           </button>
         </main>
         { /* Stores current board state in local storage so
              game is preserved even when refreshed */ }
-        <SimpleStorage parent={this} blacklist={['activeCell', 'activeRow', 'activeCol']} />
+        <SimpleStorage
+          parent={this}
+          prefix={`bingo-${this.props.gameId}`}
+          blacklist={['activeCell', 'activeRow', 'activeCol']}
+        />
       </div>
     );
   }
