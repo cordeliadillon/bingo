@@ -11,14 +11,7 @@ class WelcomeScreen extends Component {
 
   handleSubmit(e) {
     const boardName = document.getElementById('boardName').value;
-    if (boardName) {
-      // this.props.firebase.database().ref('games/' + boardName).once('value').then((game) => {
-      //   console.log('game', game);
-      //   //window.location = 'google.com'
-      // });
-      window.location.search = `game=${boardName}`;
-    }
-
+    if (boardName) window.location.search = `game=${boardName}`;
     e.preventDefault();
   }
 
@@ -34,10 +27,10 @@ class WelcomeScreen extends Component {
             <div>
               <label htmlFor='boardName' className='f6 b db mb2'>Board Name</label>
               <input
-                  style={{'backgroundColor': '#f6f7fa'}}
-                  className='input-reset pa3 ma2 ba bw1 b--black'
-                  id='boardName'
-                  placeholder='Enter your board name' />
+                style={{'backgroundColor': '#f6f7fa'}}
+                className='input-reset pa3 ma2 ba bw1 b--black'
+                id='boardName'
+                placeholder='Enter your board name' />
               <input
                 className='tc fw8 blue-button white pa3 ba bw1 b--black'
                 value='Play!'

@@ -51,7 +51,6 @@ class Board extends Component {
       selection: {[midpoint]: true},
       size: size,
       startTime: Date.now(),
-      starterValues: props.values,
       values: values
     };
 
@@ -136,10 +135,6 @@ class Board extends Component {
           }
         }
       }
-    }
-
-    if (prevProps.values !== this.state.starterValues) {
-      console.log('eeeey', prevProps.values, this.props.values);
     }
   }
 
