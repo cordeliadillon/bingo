@@ -350,7 +350,7 @@ class Board extends Component {
         <SimpleStorage
           parent={this}
           prefix={`bingo-${this.props.gameId}`}
-          blacklist={['activeCell', 'activeRow', 'activeCol']}
+          blacklist={['activeCell', 'activeRow', 'activeCol', 'values']}
         />
       </div>
     );
