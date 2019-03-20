@@ -24,9 +24,14 @@ class App extends Component {
       this.setState({
         noSuchGame: !game.exists(),
         lexicon: game.child('lexicon').val(),
-        size: game.child('size').val(),
-        instructions: game.child('instructions').val().replace(/\\n/g, '\n')
+        size: game.child('size').val()
       });
+      let instructions = game.child('instructions').val();
+      if (instructions) {
+        this.setState({
+          instructions: instructions.replace(/\\n/g, '\n')
+        });
+      }
     });
 
     firebase.database().ref('games/' + this.state.gameId + '/leaderboard').orderByChild('duration').on('value', (leaderboard) => {
@@ -55,7 +60,7 @@ class App extends Component {
       <div>
         <Header/>
         <main>
-          <div aria-live='polite'>Loading...</div>
+          <div className="f3 pa2" aria-live='polite'>Loading...</div>
         </main>
       </div>
     );

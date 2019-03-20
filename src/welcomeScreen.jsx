@@ -25,7 +25,7 @@ class WelcomeScreen extends Component {
               <label htmlFor='boardName' className='f6 b db mb2'>Board Name</label>
               <input
                 style={{'backgroundColor': '#f6f7fa'}}
-                className='input-reset pa3 ma2 ba bw1 b--black'
+                className='input-reset pa3 mr2 ba bw1 b--black'
                 id='boardName'
                 placeholder='Enter your board name' />
               <input
