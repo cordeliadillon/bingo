@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-// import { StyledFirebaseAuth } from 'react-firebaseui';
 import Board from './board';
 import Instructions from './instructions';
 import LeaderBoard from './leaderboard';
 import WelcomeScreen from './welcomeScreen';
+import Header from './header';
 import firebase from './firebase.js';
 import queryString from 'query-string';
+import './app.css';
+import './tachyons.css';
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class App extends Component {
         noSuchGame: !game.exists(),
         lexicon: game.child('lexicon').val(),
         size: game.child('size').val(),
-        instructions: game.child('instructions').val()
+        instructions: game.child('instructions').val().replace(/\\n/g, '\n')
       });
     });
 
@@ -38,37 +40,51 @@ class App extends Component {
     });
   }
 
+  renderGame() {
+    return (
+      <div>
+        <Board id='abc' size={this.state.size} values={this.state.lexicon} db={firebase} gameId={this.state.gameId} />
+        <LeaderBoard leaders={this.state.leaders} size={this.state.size} />
+        <Instructions src={this.state.instructions}/>
+      </div>
+    );
+  }
+
+  renderLoadingScreen() {
+    return (
+      <div>
+        <Header/>
+        <main>
+          <div aria-live='polite'>Loading...</div>
+        </main>
+      </div>
+    );
+  }
+
+  renderWelcomeScreen() {
+    return (
+      <div>
+        <Header/>
+        <main>
+          <WelcomeScreen firebase={firebase} />
+        </main>
+      </div>
+    );
+  }
+
   render() {
     if (this.state.gameId) {
       if (!this.state.noSuchGame) {
         if (this.state.lexicon && this.state.size) {
-          return (
-            <div className='app'>
-              <Board id='abc' size={this.state.size} values={this.state.lexicon} db={firebase} gameId={this.state.gameId} />
-              <LeaderBoard leaders={this.state.leaders} size={this.state.size} />
-              <aside>
-                <Instructions src={this.state.instructions}/>
-              </aside>
-            </div>
-          );
+          return this.renderGame();
         } else {
-          return (
-            <div>
-              <header className='white'>
-                <h1>Bingo Buddies</h1>
-              </header>
-              <main className='tc'>
-                <div aria-live='polite'>Loading...</div>
-              </main>
-            </div>
-          );
+          return this.renderLoadingScreen();
         }
       } 
     }
-    return <WelcomeScreen firebase={firebase} />;
+    return this.renderWelcomeScreen();
   }
 }
-
 
 const AppRouter = () => (
   <Router>

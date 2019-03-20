@@ -5,10 +5,10 @@ class Instructions extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Instructions</h2>
+      <aside className='maxw-95 instructions' aria-label="Instructions">
+        <h2 className="pv2 bb-3">Instructions</h2>
         <ReactMarkdown source={this.props.src}/>
-      </div>
+      </aside>
     );
   }
 

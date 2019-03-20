@@ -4,27 +4,42 @@ body {
   padding: 2px;
 }
 
+.maxw-95 {
+  max-width: 95vmin;
+}
+
+.instructions ul, .instructions p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.instructions li {
+  padding-bottom: .5rem;
+}
+
 header {
   margin: 0 0 1rem 0;
-  padding: .25rem 0;
   min-height: 4rem;
-
-  text-align: center;
   font-weight: 800;
+  max-width: 95vmin;
+  border-bottom: 5px solid black;
+}
 
-  color: white;
+header, main, aside, .success {
+ margin: 2vmin;
+}
 
-  background-color: #16325c;
-  outline: 4px solid #16325c;
+.bb-3 {
+  border-bottom: 3px solid black;
+}
+
+.bb-5 {
+  border-bottom: 5px solid black;
 }
 
 *[role='grid'] {
   border-collapse: collapse;
   width: 100%;
-  max-width: 95vmin;
-
-  margin: 0 auto;
-
   padding: 2rem;
   outline: 4px solid #dddbda;
 }
@@ -98,4 +113,12 @@ svg {
   fill: white;
   width: 2rem;
   height: 2rem;
+}
+
+.success {
+  bottom: 0;
+  right: 0;
+  left: 1px; /* midnight hack */
+  background-color: #EAEDF5;
+  outline: 4px solid #dddbda;
 }

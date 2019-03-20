@@ -17,10 +17,7 @@ class WelcomeScreen extends Component {
 
   render() {
     return (
-      <div className='tc'>
-        <header className='white'>
-          <h1>Bingo Buddies</h1>
-        </header>
+      <div>
         <main>
           <form onSubmit={this.handleSubmit}>
             <h2>Ready to join a game?</h2>

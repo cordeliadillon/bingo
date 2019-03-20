@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import SimpleStorage from 'react-simple-storage'; 
-import './board.css';
-import './tachyons.css';
+import SimpleStorage from 'react-simple-storage';
+import Header from './header';
 
 momentDurationFormatSetup(moment);
 
@@ -51,7 +50,8 @@ class Board extends Component {
       selection: {[midpoint]: true},
       size: size,
       startTime: Date.now(),
-      values: values
+      values: values,
+      bingo: true
     };
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -283,21 +283,21 @@ class Board extends Component {
       if (this.state.leaderboardSubmitted) {
         return (
           <p className='lh-copy mb0'>
-            You're on the leaderboard! Keep playing on this bingo board or generate a new one.
+            You're on the leaderboard!{' '}
+            Keep playing on this bingo board or{' '}
+            <button onClick={this.refreshBoard}>generate a new one</button>.
           </p>
         );
       } else {
         return (
           <div className='pt3'>
-            <span>
-              Want to be on the leaderboard? <label htmlFor='name'>Add your name:</label>
-            </span>
-            <div className='pa2'>
+            <label htmlFor='name'>Enter a name to display on leaderboard:</label>
+            <div className='pv2'>
               <input
                 style={{'backgroundColor': '#f6f7fa'}}
-                className='input-reset pa3 ma2 ba bw1 b--black'
+                className='input-reset pa3 mr2 ba bw1 b--black'
                 id='name'
-                placeholder='Your name' />
+                placeholder='Your Name' />
               <button
                 className='tc fw8 blue-button white pa3 ba bw1 b--black'
                 onClick={this.updateLeaderBoard}
@@ -315,9 +315,18 @@ class Board extends Component {
   renderSuccess() {
     if (this.state.bingo) {
       return (
-        <div role='alert' aria-live='assertive'>
-          <h2 className='fw6 f3 f2-ns lh-title mt0 mb2'>You got bingo!</h2>
-          <p className='ma0'>Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}</p>
+        <div className='fixed success maxw-95 pa3'>
+          <div className='flex flex-wrap items-center justify-between'>
+            <div className='w-50' role='alert' aria-live='assertive'>
+              <span className='f2 fw8'>You got bingo! 🎉</span>
+              <div className='f3 pt2'>
+                Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}
+              </div>
+            </div>
+            <div className='w-50 tr'>
+              {this.renderLeaderboardPrompt()}
+            </div>
+          </div>
         </div>
       )
     }
@@ -327,23 +336,21 @@ class Board extends Component {
   render() {
     return (
       <div>
-        <header className='white'>
-          <h1 className={this.state.bingo ? 'visually-hidden' : null }>Bingo Buddies</h1>
-          {this.renderSuccess()}
-        </header>
+        <Header>
+          <button
+            className='tc fw8 bg-white black pa3 ba bw1 b--black mb2'
+            onClick={this.refreshBoard}
+          >
+            New Board
+          </button>
+        </Header>
         <main>
-          <table role='grid'>
+          <table role='grid' className='maxw-95'>
             <tbody role='presentation'>
               {this.state.grid.map((row, y) => { return (this.renderRow(row, y))})}
             </tbody>
           </table>
-          {this.renderLeaderboardPrompt()}
-          <button
-            className='tc fw8 bg-white black pa3 ba bw1 b--black mt3 mb2'
-            onClick={this.refreshBoard}
-          >
-            New Bingo Board
-          </button>
+          {this.renderSuccess()}
         </main>
         { /* Stores current board state in local storage so
              game is preserved even when refreshed */ }

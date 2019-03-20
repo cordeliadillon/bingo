@@ -20,13 +20,14 @@ class LeaderBoard extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Leaderboard</h2>
+      <aside className='maxw-95' aria-label="Leaderboard">
+        <h2 className="bb-3 pv2">Leaderboard</h2>
         <div role='log'>
-          <ol aria-relevant='additions'>
+          <ol aria-relevant='additions' className="f4 list pa0">
             {this.props.leaders.map((leader, i) => {
               return (
-                <li key={i} className='pa1'>
+                <li key={i} className='ph1 pb3'>
+                  <span aria-hidden="true">🏆 </span> 
                   <strong>
                     {leader.name}
                     {' '}&middot;{' '}
@@ -40,7 +41,7 @@ class LeaderBoard extends Component {
           </ol>
           {this.renderEmptyState()}
         </div>
-      </div>
+      </aside>
     );
   }
 
