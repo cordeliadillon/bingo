@@ -51,7 +51,6 @@ class Board extends Component {
       size: size,
       startTime: Date.now(),
       values: values,
-      bingo: true
     };
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -291,15 +290,15 @@ class Board extends Component {
       } else {
         return (
           <div className='pt3'>
-            <label htmlFor='name'>Enter a name to display on leaderboard:</label>
+            <label htmlFor='name'>Enter a name to display on the leaderboard:</label>
             <div className='pv2'>
               <input
                 style={{'backgroundColor': '#f6f7fa'}}
-                className='input-reset pa3 mr2 ba bw1 b--black'
+                className='input-reset pa3 mb2 ba bw1 b--black'
                 id='name'
                 placeholder='Your Name' />
               <button
-                className='tc fw8 blue-button white pa3 ba bw1 b--black'
+                className='tc fw8 blue-button white pa3 ml2 ba bw1 b--black'
                 onClick={this.updateLeaderBoard}
               >
                 Add me!
@@ -315,15 +314,15 @@ class Board extends Component {
   renderSuccess() {
     if (this.state.bingo) {
       return (
-        <div className='fixed success maxw-95 pa3'>
+        <div className='success maxw-95 pa3 mv3'>
           <div className='flex flex-wrap items-center justify-between'>
-            <div className='w-50' role='alert' aria-live='assertive'>
+            <div className='w-50-l w-100 tc tl-l' role='alert' aria-live='assertive'>
               <span className='f2 fw8'>You got bingo! 🎉</span>
               <div className='f3 pt2'>
                 Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}
               </div>
             </div>
-            <div className='w-50 tr'>
+            <div className='w-50-l w-100 tc tr-l'>
               {this.renderLeaderboardPrompt()}
             </div>
           </div>
@@ -336,7 +335,7 @@ class Board extends Component {
   render() {
     return (
       <div>
-        <Header>
+        <Header gotBingo={this.state.bingo}>
           <button
             className='tc fw8 bg-white black pa3 ba bw1 b--black mb2'
             onClick={this.refreshBoard}

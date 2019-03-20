@@ -2,6 +2,7 @@ body {
   background-color: #f6f7fa;
   font-family: Avenir ,sans-serif;
   padding: 2px;
+  padding-bottom: 10rem;
 }
 
 .maxw-95 {
@@ -25,7 +26,7 @@ header {
   border-bottom: 5px solid black;
 }
 
-header, main, aside, .success {
+header, main, aside {
  margin: 2vmin;
 }
 
