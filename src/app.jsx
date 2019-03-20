@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { StyledFirebaseAuth } from 'react-firebaseui';
+// import { StyledFirebaseAuth } from 'react-firebaseui';
 import Board from './board';
+import Instructions from './instructions';
 import LeaderBoard from './leaderboard';
 import WelcomeScreen from './welcomeScreen';
 import firebase from './firebase.js';
@@ -21,7 +22,8 @@ class App extends Component {
       this.setState({
         noSuchGame: !game.exists(),
         lexicon: game.child('lexicon').val(),
-        size: game.child('size').val()
+        size: game.child('size').val(),
+        instructions: game.child('instructions').val()
       });
     });
 
@@ -44,6 +46,9 @@ class App extends Component {
             <div className='app'>
               <Board id='abc' size={this.state.size} values={this.state.lexicon} db={firebase} gameId={this.state.gameId} />
               <LeaderBoard leaders={this.state.leaders} size={this.state.size} />
+              <aside>
+                <Instructions src={this.state.instructions}/>
+              </aside>
             </div>
           );
         } else {
