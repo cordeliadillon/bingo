@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'firebase/auth';
+import Instructions from './instructions';
 
 class WelcomeScreen extends Component {
 
@@ -17,26 +18,22 @@ class WelcomeScreen extends Component {
 
   render() {
     return (
-      <div>
-        <main>
-          <form onSubmit={this.handleSubmit}>
-            <h2>Ready to join a game?</h2>
-            <div>
-              <label htmlFor='boardName' className='f6 b db mb2'>Board Name</label>
-              <input
-                style={{'backgroundColor': '#f6f7fa'}}
-                className='input-reset pa3 mr2 ba bw1 b--black'
-                id='boardName'
-                placeholder='Enter your board name' />
-              <input
-                className='tc fw8 blue-button white pa3 ba bw1 b--black'
-                value='Play!'
-                type='submit'
-              />
-            </div>
-          </form>
-        </main>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <h2>Ready to join a game?</h2>
+        <div>
+          <label htmlFor='boardName' className='f6 b db mb2'>Board Name</label>
+          <input
+            style={{'backgroundColor': '#f6f7fa'}}
+            className='input-reset pa3 mr2 ba bw1 b--black'
+            id='boardName'
+            placeholder='Enter your board name' />
+          <input
+            className='tc fw8 blue-button white pa3 ba bw1 b--black'
+            value='Play!'
+            type='submit'
+          />
+        </div>
+      </form>
     );
   }
 }

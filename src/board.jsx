@@ -35,7 +35,7 @@ class Board extends Component {
     let values = props.values.slice();
     let i = 0;
     while (values.length < cellCount) {
-      values.push(values[i]);
+      values.push(props.values[i]);
       i++;
       if (i > props.values.length - 1) i = 0;
     }
@@ -119,6 +119,7 @@ class Board extends Component {
         document.getElementById(this.props.id + '-cell-' + this.state.activeCell).focus();
       }
 
+      // if selection has changed in some way, check for bingo
       if (prevState.selection !== this.state.selection) {
         if (
           this.checkRow(this.state.activeRow) ||
@@ -139,7 +140,7 @@ class Board extends Component {
 
   checkRow(row) {
     const size = this.state.size;
-    const rowStart = this.state.activeRow * size;
+    const rowStart = row * size;
     for (let i = rowStart; i < rowStart + size; i++) {
       if (!this.state.selection[i]) {
         return false;
@@ -151,7 +152,7 @@ class Board extends Component {
 
   checkCol(col) {
     const size = this.state.size;
-    for (let j = this.state.activeCol; j < size * size; j+= size) {
+    for (let j = col; j < size * size; j+= size) {
       if (!this.state.selection[j]) {
         return false;
       }
@@ -159,9 +160,10 @@ class Board extends Component {
     return true;
   }
 
+  /** Upper left to lower right **/
   checkDiagonalA(row, col) {
     const size = this.state.size;
-    if (row === col || row === size - col - 1) {
+    if (row === col) {
       for (let i = 0; i < size; i++) {
         if (!this.state.selection[size * i + i]) {
           return false;
@@ -171,9 +173,10 @@ class Board extends Component {
     }
   }
 
+  /** Upper right to lower left **/
   checkDiagonalB(row, col) {
     const size = this.state.size;
-    if (row === col || row === size - col - 1) {
+    if (row === (size - col - 1)) {
       for (let i = 0; i < size; i++) {
         if (!this.state.selection[size * i + size - i - 1]) {
           return false;

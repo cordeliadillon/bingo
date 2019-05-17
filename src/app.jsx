@@ -73,6 +73,7 @@ class App extends Component {
         <main>
           <WelcomeScreen firebase={firebase} />
         </main>
+        <Instructions/>
       </div>
     );
   }
