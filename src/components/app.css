@@ -74,12 +74,18 @@ header, main, aside {
   border: 0;
 
   font-weight: 500;
+
+  cursor: pointer;
 }
 
 .cell-toggle[aria-pressed='true'] {
   background: #16325c;
   color: white;
   font-style: italic;
+}
+
+.cell-toggle[aria-disabled='true'] {
+  cursor: default;
 }
 
 .cell-toggle:focus {

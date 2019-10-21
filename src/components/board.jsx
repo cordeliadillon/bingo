@@ -227,32 +227,33 @@ class Board extends Component {
     this.setState({activeCell: this.state.grid[row][col].id});
   }
 
+  renderMidpointCell(cellId, row, col) {
+    return (
+      <td role='gridcell' key={cellId}>
+        <div className='cell-contents'>
+          <button
+            aria-disabled={true}
+            aria-pressed={true}
+            className='cell-toggle'
+            id={this.props.id + '-cell-' + cellId}
+            onClick={() => {this.setState({activeCell : cellId});}}
+            onKeyDown={(event) => {this.handleKeyDown(event, row, col);}}
+            tabIndex={cellId === this.state.activeCell ? '0' : '-1'}
+          >
+            <svg aria-label='Star (free tile)' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12.6 1.4l2.2 7c.1.2.3.4.6.4h6.9c.7 0 1 .9.5 1.3l-5.7 4.2c-.2.1-.3.5-.2.7l2.7 7.2c.2.6-.5 1.2-1.1.7l-6-4.5c-.3-.2-.6-.2-.9 0l-6.1 4.5c-.5.5-1.3-.1-1-.7L7.1 15c.1-.2 0-.6-.3-.7l-5.6-4.2c-.6-.4-.2-1.3.4-1.3h6.9c.4 0 .6-.1.7-.4l2.2-7c.1-.7 1.1-.6 1.2 0z"></path>
+            </svg>
+          </button>
+        </div>
+      </td>
+    );
+  }
+
   renderCell(cell, row, col) {
     const isMidpoint = cell.id === this.state.midpoint;
     const selected = this.state.selection[cell.id] || isMidpoint ? true : false;
-    const id = cell.id;
 
-    if (isMidpoint) {
-      return (
-        <td role='gridcell' key={id}>
-          <div className='cell-contents'>
-            <button
-              aria-disabled={true}
-              aria-pressed={true}
-              className='cell-toggle'
-              id={this.props.id + '-cell-' + id}
-              onClick={() => {this.setState({activeCell : id});}}
-              onKeyDown={(event) => {this.handleKeyDown(event, row, col);}}
-              tabIndex={id === this.state.activeCell ? '0' : '-1'}
-            >
-              <svg aria-label='Star (free tile)' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12.6 1.4l2.2 7c.1.2.3.4.6.4h6.9c.7 0 1 .9.5 1.3l-5.7 4.2c-.2.1-.3.5-.2.7l2.7 7.2c.2.6-.5 1.2-1.1.7l-6-4.5c-.3-.2-.6-.2-.9 0l-6.1 4.5c-.5.5-1.3-.1-1-.7L7.1 15c.1-.2 0-.6-.3-.7l-5.6-4.2c-.6-.4-.2-1.3.4-1.3h6.9c.4 0 .6-.1.7-.4l2.2-7c.1-.7 1.1-.6 1.2 0z"></path>
-              </svg>
-            </button>
-          </div>
-        </td>
-      );
-    }
+    if (isMidpoint) { return this.renderMidpointCell(cell.id, row, col); }
 
     return (
       <td role='gridcell' key={cell.id}>
@@ -263,17 +264,17 @@ class Board extends Component {
             id={this.props.id + '-cell-' + cell.id}
             onClick={() => {
               let selection = copyObject(this.state.selection);
-              selection[id] = !selected;
+              selection[cell.id] = !selected;
 
               this.setState({
                 selection: selection,
-                activeCell: id,
+                activeCell: cell.id,
                 activeRow: row,
                 activeCol: col
               });
             }}
             onKeyDown={(event) => {this.handleKeyDown(event, row, col);}}
-            tabIndex={id === this.state.activeCell ? '0' : '-1'}
+            tabIndex={cell.id === this.state.activeCell ? '0' : '-1'}
           >
             {cell.value}
           </button>
@@ -284,7 +285,7 @@ class Board extends Component {
 
   renderRow(row, y) {
     return (
-      <tr key={y}>
+      <tr role='row' key={y}>
         {row.map((cell, x) => { return this.renderCell(cell, y, x); })}
       </tr>
     );
