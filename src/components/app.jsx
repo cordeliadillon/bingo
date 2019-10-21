@@ -5,10 +5,10 @@ import Instructions from './instructions';
 import LeaderBoard from './leaderboard';
 import WelcomeScreen from './welcomeScreen';
 import Header from './header';
-import firebase from './firebase.js';
+import firebase from '../firebase.js';
 import queryString from 'query-string';
 import './app.css';
-import './tachyons.css';
+import '../tachyons.css';
 
 class App extends Component {
   constructor(props) {

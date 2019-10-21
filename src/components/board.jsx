@@ -138,6 +138,16 @@ class Board extends Component {
     }
   }
 
+  checkIndices(indices) {
+    for (let i = 0; i < indices.length; i++) {
+      let index = indices[i];
+      if (!this.state.selection[index]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   checkRow(row) {
     const size = this.state.size;
     const rowStart = row * size;
@@ -160,7 +170,7 @@ class Board extends Component {
     return true;
   }
 
-  /** Upper left to lower right **/
+  /* Upper left to lower right */
   checkDiagonalA(row, col) {
     const size = this.state.size;
     if (row === col) {
@@ -173,7 +183,7 @@ class Board extends Component {
     }
   }
 
-  /** Upper right to lower left **/
+  /* Upper right to lower left */
   checkDiagonalB(row, col) {
     const size = this.state.size;
     if (row === (size - col - 1)) {
@@ -320,7 +330,7 @@ class Board extends Component {
         <div className='success maxw-95 pa3 mv3'>
           <div className='flex flex-wrap items-center justify-between'>
             <div className='w-50-l w-100 tc tl-l' role='alert' aria-live='assertive'>
-              <span className='f2 fw8'>You got bingo! 🎉</span>
+              <span className='f2 fw8'>You got bingo! <span role="img" aria-label="Hurray!">🎉</span></span>
               <div className='f3 pt2'>
                 Total time: {moment.duration(this.state.endTime - this.state.startTime).format('h [hr], m [min], s [sec]')}
               </div>

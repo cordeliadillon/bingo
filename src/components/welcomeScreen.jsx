@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'firebase/auth';
-import Instructions from './instructions';
 
 class WelcomeScreen extends Component {
 
