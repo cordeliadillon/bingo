@@ -1,3 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Bingo (a work in progress)
 
-# Work in progress :)
+## Credits
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

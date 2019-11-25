@@ -22,8 +22,8 @@ class LeaderBoard extends Component {
     return (
       <aside className='maxw-95' aria-label="Leaderboard">
         <h2 className="bb-3 pv2">Leaderboard</h2>
-        <div role='log'>
-          <ol aria-relevant='additions' className="f4 list pa0">
+        <div role='log' aria-live='polite' aria-atomic='true'>
+          <ol className="f4 list pa0">
             {this.props.leaders.map((leader, i) => {
               return (
                 <li key={i} className='ph1 pb3'>
