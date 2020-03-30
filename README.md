@@ -24,7 +24,7 @@ You could use any underlying database for this, but [Firebase](https://firebase.
     - not overwrite `database.rules.json`
     - choose `build` as your public directory
     - configure as single-page app
-4. Create an `.env` file with the following data from your Firebase project:
+4. Create an `.env` file with the following data from your Firebase project's settings:
     ```
     REACT_APP_FIREBASE_API_KEY={your_data}
     REACT_APP_FIREBASE_AUTH_DOMAIN={your_data}
@@ -34,7 +34,15 @@ You could use any underlying database for this, but [Firebase](https://firebase.
     REACT_APP_FIREBASE_MESSAGEING_SENDER_ID={your_data}
     ```
 
-You can now run the app locally by calling `npm start`.
+### Check that it's all working
+
+If you've followed the steps above, you should be able to run the app locally.
+
+1. Call `npm start`.
+2. App should automatically load showing the "Ready to join a game?" screen.
+3. If you uploaded the sample schema, type "a11y" into the Board Name field and click "Play!"
+
+If the app hangs at this point, go into your Firebase Console and make sure your database's rules are the same as those in [database.rules.json](database.rules.json).
 
 
 ## Creating new games
