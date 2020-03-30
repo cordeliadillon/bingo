@@ -1,6 +1,8 @@
 # Bingo
 
-This is an accessible bingo web app using React and Firebase. [See it in action](https://backlog-bingo.com/), [read about its accessibility](https://www.24a11y.com/2019/building-an-accessible-bingo-web-app/), or build your own version using the instructions below:
+An accessible bingo web app using React and Firebase.
+
+[See it in action](https://backlog-bingo.com/), [read about its accessibility](https://www.24a11y.com/2019/building-an-accessible-bingo-web-app/), or build your own version using the instructions below:
 
 ## Getting started
 
