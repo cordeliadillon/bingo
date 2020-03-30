@@ -53,15 +53,13 @@ The easiest way to add a new game board is to create a JSON file containing a le
 
 ```
 {
-    "instructions" : "### Write anything here using basic **markdown**...",
-    "lexicon" : [
-      "Put all the phrases you want to use here",
-      "You can even include emojis!",
-      "🍕"
-    ],
-    "size" : 5
-  }
-  }
+  "instructions" : "### Write anything here using basic **markdown**...",
+  "lexicon" : [
+    "Put all the phrases you want to use here",
+    "You can even include emojis!",
+    "🍕"
+   ],
+  "size" : 5
 }
 
 ```
