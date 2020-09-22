@@ -121,6 +121,8 @@ class Board extends Component {
 
       // if selection has changed in some way, check for bingo
       if (prevState.selection !== this.state.selection) {
+        console.clear();
+        console.log('Checking for bingo...');
         if (
           this.checkRow(this.state.activeRow) ||
           this.checkCol(this.state.activeCol) ||
@@ -128,11 +130,15 @@ class Board extends Component {
           this.checkDiagonalB(this.state.activeRow, this.state.activeCol)
         ) {
           if (!this.state.bingo) {
+            console.log('It\'s a bingo!');
             this.setState({
               bingo: true,
               endTime: Date.now(),
             });
           }
+        } else {
+          console.log('Alas, not a bingo.')
+          this.setState({bingo: false});
         }
       }
     }
@@ -153,10 +159,11 @@ class Board extends Component {
     const rowStart = row * size;
     for (let i = rowStart; i < rowStart + size; i++) {
       if (!this.state.selection[i]) {
+        console.log('- Bingo in row ' + row + '? Fail at cell ' + i);
         return false;
       }
     }
-
+    console.log('- Bingo in row ' + row + '? Success!');
     return true;
   }
 
@@ -164,9 +171,11 @@ class Board extends Component {
     const size = this.state.size;
     for (let j = col; j < size * size; j+= size) {
       if (!this.state.selection[j]) {
+        console.log('- Bingo in col ' + col + '? Fail at cell ' + j);
         return false;
       }
     }
+    console.log('- Bingo in col ' + col + '? Success!');
     return true;
   }
 
@@ -176,9 +185,11 @@ class Board extends Component {
     if (row === col) {
       for (let i = 0; i < size; i++) {
         if (!this.state.selection[size * i + i]) {
+          console.log('- Bingo in diagonal A? Fail at cell ' + (size * i + i));
           return false;
         }
       }
+      console.log('- Bingo in diagonal A? Success!');
       return true;
     }
   }
@@ -189,9 +200,11 @@ class Board extends Component {
     if (row === (size - col - 1)) {
       for (let i = 0; i < size; i++) {
         if (!this.state.selection[size * i + size - i - 1]) {
+          console.log('- Bingo in diagonal B? Fail at cell ' + (size * i + size - i - 1));
           return false;
         }
       }
+      console.log('- Bingo in diagonal B? Success!')
       return true;
     }
   }
@@ -277,7 +290,8 @@ class Board extends Component {
             onKeyDown={(event) => {this.handleKeyDown(event, row, col);}}
             tabIndex={cell.id === this.state.activeCell ? '0' : '-1'}
           >
-            {cell.value}
+            {/*cell.id*/}
+            {cell.value} 
           </button>
         </div>
       </td>
