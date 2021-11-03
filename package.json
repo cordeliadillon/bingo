@@ -19,7 +19,7 @@
     "react-simple-storage": "^1.4.1",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
-    "validator": "^10.10.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "react-scripts": "^3.4.1",
