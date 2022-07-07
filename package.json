@@ -7,7 +7,7 @@
     "firebase": "^5.7.3",
     "firebase-tools": "^7.16.1",
     "firebaseui": "^3.5.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.2.2",
     "prop-types": "^15.6.2",
     "query-string": "^5.1.1",
