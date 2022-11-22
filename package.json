@@ -22,7 +22,7 @@
     "validator": "^10.10.0"
   },
   "devDependencies": {
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "tachyons": "^4.10.0"
   },
   "scripts": {
